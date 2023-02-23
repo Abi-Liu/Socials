@@ -1,0 +1,14 @@
+#postDiv{
+    height: 700px;
+}
+
+li{
+    list-style: none;
+}
+.img-thumbnail{
+    background-color: #D3D3D3;
+}
+
+.feedPost{
+    height: 800px;
+}
