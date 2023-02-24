@@ -19,3 +19,7 @@ a{
     color: black;
     text-decoration: none;
 }
+
+#feedDiv{
+    width: 60%;
+}

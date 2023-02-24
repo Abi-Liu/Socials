@@ -1,34 +1,64 @@
 <%- include('partials/header') -%>
-  <div class="container">
-    <% let user%>
-    <div class="row justify-content-center mt-5">
-      <ul class="row list-unstyled h-50">
-        <% for(var i=0; i<posts.length; i++) {%>
-          <%user=users.find(x=> x.id == posts[i].user)%>
-          <li class="feedPost col-6 justify-content-between mt-2">
-            <p class = 'fw-bold'>
-              <a href="/getUserProfile/<%=user._id%>">
-                <%= user.userName%>
-              </a>
-            </p>
-            <a href="/post/<%= posts[i]._id%>">
-              <img class="img-fluid h-75 mx-auto d-block img-thumbnail" src="<%= posts[i].image%>">
-            </a>
-            <div class = 'd-flex my-2'>
-              <span class = 'mx-3'><%=posts[i].likes%></span>
-              <form class = 'ml-3' action="/post/likeFeedPost/<%=posts[i]._id%>?_method=PUT" method='POST'>
-                <button class='fa fa-heart btn-primary ml-3'></button>
-              </form>
-            </div>
-            <div class = 'd-flex '>
-              <p class = 'fw-bold'><a class='mx-2' href="/getUserProfile/<%=user._id%>">
-                <%= user.userName%>
-              </a></p>
-              <p class = 'd-block text-truncate'><%= posts[i].caption%></p>
-            </div>
-          </li>
-        <% } %>
-        </ul>
+  <div >
+    <nav class="navbar navbar-expand-lg navbar-light w-25 d-flex vh-100 align-items-start border-end fixed-top">
+      <div class="h-50 container-fluid flex-column d-flex align-items-start justify-content-between">
+        <a class="navbar-brand ms-2 mt-4 mb-5" href="/feed">Socials</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse flex-column d-flex" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-column d-flex justify-content-between ms-1">
+            <li class="nav-item">
+              <a class="nav-link mb-5 active" aria-current="page" href="/feed">Feed</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mb-5 active" href="/profile">Profile</a>
+            </li>
+          </ul>
+          <form action = 'POST'>
+            <button class="btn" type="submit">Create</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container w-50" >
+      <% let user%>
+        <div id = 'feedDiv' class="row">
+          <ul class="list-unstyled">
+            <% for(var i=0; i<posts.length; i++) {%>
+              <%user=users.find(x=> x.id == posts[i].user)%>
+                <li class="feedPost col-6 justify-content-between mt-2">
+                  <p class='fw-bold'>
+                    <a href="/getUserProfile/<%=user._id%>">
+                      <%= user.userName%>
+                    </a>
+                  </p>
+                  <a href="/post/<%= posts[i]._id%>">
+                    <img class="img-fluid h-75 d-block img-thumbnail" src="<%= posts[i].image%>">
+                  </a>
+                  <div class='d-flex my-2'>
+                    <span class='me-2'>
+                      <%=posts[i].likes%>
+                    </span>
+                    <form action="/post/likeFeedPost/<%=posts[i]._id%>?_method=PUT" method='POST'>
+                      <button class='fa fa-heart btn-primary ml-3'></button>
+                    </form>
+                  </div>
+                  <div class='d-flex'>
+                    <p class='fw-bold'><a class='me-2' href="/getUserProfile/<%=user._id%>">
+                        <%= user.userName%>
+                      </a></p>
+                    <p class='d-block text-truncate'>
+                      <%= posts[i].caption%>
+                    </p>
+                  </div>
+                </li>
+                <% } %>
+          </ul>
+        </div>
     </div>
-  </div>  
+  </div>
+  
 <%- include('partials/footer') -%>
