@@ -6,14 +6,18 @@
  
   <div class="col-6 w-75">
     <div class="mt-5">
-        <div class = 'd-flex justify-content-evenly gap-3'>
-            <div>
-                <img src="<%=user.profilePicture%>" alt="">
-                <p><strong>User Name</strong>: <%= user.userName %></p>
+        <div class = 'd-flex justify-content-start gap-3'>
+            <div class =  'px-5 mx-4 '>
+                <img class = 'ms-5' src="<%=user.profilePicture%>" alt="">
             </div>
-            <% if (loggedUser){ %>
-            <button class="btn btn-primary btn-lg fa fa-plus" data-bs-toggle="modal" data-bs-target="#createPost"></button>
-            <%}%>
+            <div class = 'align-self-center'>
+              <p><strong>User Name</strong>: <%= user.userName %></p>
+                <div class = 'd-flex justify-content-center'>
+                  <% if (loggedUser){ %>
+                    <button class="btn btn-primary btn-lg fa fa-plus" data-bs-toggle="modal" data-bs-target="#createPost"></button>
+                  <%}%>
+              </div>
+            </div>
         </div>
         <div>
           <ul class="row list-unstyled">
