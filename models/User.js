@@ -7,7 +7,12 @@ const UserSchema = new mongoose.Schema({
   password: String,
   profilePicture: {
     type: String,
-    default: 'https://res.cloudinary.com/dlauczmpy/image/upload/w_150,c_fill,ar_1:1,g_auto,r_max,bo_2px_solid_black,b_rgb:262c35/v1677275930/blank-profile-picture-g34505d0d1_640_w0rdmv.png',
+    default:
+      "https://res.cloudinary.com/dlauczmpy/image/upload/w_150,c_fill,ar_1:1,g_auto,r_max,bo_2px_solid_black,b_rgb:262c35/v1677275930/blank-profile-picture-g34505d0d1_640_w0rdmv.png",
+  },
+  cloudinaryId: {
+    type: String,
+    require: true,
   },
 });
 

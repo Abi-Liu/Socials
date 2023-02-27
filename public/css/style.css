@@ -23,3 +23,7 @@ a{
 #feedDiv{
     width: 60%;
 }
+
+.modal-backdrop {
+  z-index: -1;
+}

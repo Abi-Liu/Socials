@@ -105,5 +105,33 @@ module.exports = {
     } catch (err){
       console.error(err)
     }
+  },
+  getProfilePicture: async (req, res) => {
+    try{
+      res.render('profilePicture.ejs')
+    } catch (err){
+      console.error(err)
+    }
+  },
+  changeProfilePicture: async (req, res) => {
+    try{ 
+      const result = await cloudinary.uploader.upload(req.file.path,
+      { transformation: [
+        {gravity: "face", height: 1000, width: 1000, crop: "crop"},
+        {radius: "max"},
+        {width: 150, crop: "fill"}
+      ]});
+
+       await User.findOneAndUpdate(
+         { _id: req.user.id },
+         {
+           $set: { profilePicture: result.secure_url },
+         }
+       );
+      console.log('changed profile picture')
+      res.redirect('/profile')
+    } catch (err){
+      console.error(err)
+    }
   }
 };

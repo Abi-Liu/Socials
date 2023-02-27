@@ -6,9 +6,11 @@
  
   <div class="col-6 w-75">
     <div class="mt-5">
-        <div class = 'd-flex justify-content-start gap-3'>
-            <div class =  'px-5 mx-4 '>
-                <img class = 'ms-5' src="<%=user.profilePicture%>" alt="">
+        <div class = 'ms-5 d-flex justify-content-start gap-3'>
+            <div class =  'ps-5 mx-5 '>
+              <a href="/addProfilePicture">
+                <img class = 'img-fluid d-block' src="<%=user.profilePicture%>" alt="">
+              </a>
             </div>
             <div class = 'align-self-center'>
               <p><strong>User Name</strong>: <%= user.userName %></p>
@@ -24,7 +26,7 @@
           <% for(var i=0; i<posts.length; i++) {%>
             <li class="col-6  mt-5">
               <a href="/post/<%= posts[i]._id%>">
-                <img class="img-fluid h-75 d-block img-thumbnail mx-auto" src="<%= posts[i].image%>">
+                <img class="img-fluid w-75 d-block img-thumbnail mx-auto" src="<%= posts[i].image%>">
               </a>
             </li>
           <% } %>

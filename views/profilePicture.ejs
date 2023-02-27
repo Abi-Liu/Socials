@@ -1,0 +1,10 @@
+<%- include('partials/header') -%>
+
+<form action="/addProfilePicture?_method=PUT" enctype="multipart/form-data" method = 'POST'>
+    <label for="imgUpload" class="form-label">Image</label>
+    <input type="file" class="form-control" id="imageUpload" name="file">
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<%- include('partials/footer') -%>
