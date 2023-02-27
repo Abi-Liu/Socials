@@ -10,7 +10,6 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 router.get("/", homeController.getIndex);
 router.get("/profile", ensureAuth, postsController.getProfile);
 router.get("/getUserProfile/:id", ensureAuth, postsController.getUserProfile);
-router.get('/addProfilePicture', postsController.getProfilePicture)
 router.put('/addProfilePicture', upload.single("file"), postsController.changeProfilePicture)
 router.get("/feed", ensureAuth, postsController.getFeed);
 router.get("/login", authController.getLogin);

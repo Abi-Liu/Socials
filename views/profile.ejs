@@ -8,9 +8,11 @@
     <div class="mt-5">
         <div class = 'ms-5 d-flex justify-content-start gap-3'>
             <div class =  'ps-5 mx-5 '>
-              <a href="/addProfilePicture">
+              <!-- <a href="/addProfilePicture"> -->
+              <button class = 'btn' data-bs-toggle="modal" data-bs-target="#addProfilePicture">
                 <img class = 'img-fluid d-block' src="<%=user.profilePicture%>" alt="">
-              </a>
+              </button>
+              <!-- </a> -->
             </div>
             <div class = 'align-self-center'>
               <p><strong>User Name</strong>: <%= user.userName %></p>
@@ -56,6 +58,31 @@
             <label for="caption" class='col-form-label'>Caption</label>
             <textarea class="form-control" id="caption" name="caption"></textarea>
           </div>
+          <div class="mb-3">
+            <label for="imgUpload" class="form-label">Image</label>
+            <input type="file" class="form-control" id="imageUpload" name="file">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addProfilePicture" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Change Profile Picture</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/addProfilePicture?_method=PUT" enctype="multipart/form-data" method='POST'>
           <div class="mb-3">
             <label for="imgUpload" class="form-label">Image</label>
             <input type="file" class="form-control" id="imageUpload" name="file">

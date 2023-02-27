@@ -106,13 +106,6 @@ module.exports = {
       console.error(err)
     }
   },
-  getProfilePicture: async (req, res) => {
-    try{
-      res.render('profilePicture.ejs')
-    } catch (err){
-      console.error(err)
-    }
-  },
   changeProfilePicture: async (req, res) => {
     try{ 
       const result = await cloudinary.uploader.upload(req.file.path,
