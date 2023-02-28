@@ -27,3 +27,7 @@ a{
 .modal-backdrop {
   z-index: -1;
 }
+
+.liked{
+    color: red;
+}

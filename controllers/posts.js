@@ -30,7 +30,7 @@ module.exports = {
     try {
       const users = await User.find();
       const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { posts: posts, users: users });
+      res.render("feed.ejs", { posts: posts, users: users, loggedUser: req.user.id});
     } catch (err) {
       console.log(err);
     }
@@ -70,7 +70,12 @@ module.exports = {
       let post = await Post.findById(req.params.id)
       let arr = post.likesArr
       if(arr.includes(req.user.id)){
-        console.log('user already liked')
+        await Post.findOneAndUpdate({_id: req.params.id},
+          {
+            $inc: {likes: -1},
+            $pull: {likesArr: req.user.id},
+          })
+        console.log('Likes -1')
       } else {
         await Post.findOneAndUpdate(
         { _id: req.params.id },
@@ -105,7 +110,14 @@ module.exports = {
       let post = await Post.findById(req.params.id);
       let arr = post.likesArr;
       if (arr.includes(req.user.id)) {
-        console.log("user already liked");
+        await Post.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            $inc: { likes: -1 },
+            $pull: { likesArr: req.user.id },
+          }
+        );
+        console.log("Likes -1");
       } else {
         await Post.findOneAndUpdate(
           { _id: req.params.id },
