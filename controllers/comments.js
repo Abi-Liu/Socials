@@ -21,7 +21,12 @@ module.exports = {
             const comment = await Comments.find({_id: req.params.id})
             const likesArr = comment[0].likesArr
             if(likesArr.includes(req.user.id)){
-                console.log('user already liked')
+                await Comments.findOneAndUpdate({_id: req.params.id},
+                    {
+                        $inc: {likes: -1},
+                        $pull: {likesArr: req.user.id},
+                    })
+                console.log('Like removed')
             } else {
                 await Comments.findOneAndUpdate({_id: req.params.id},
                 {
