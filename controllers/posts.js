@@ -56,6 +56,7 @@ module.exports = {
         cloudinaryId: result.public_id,
         caption: req.body.caption,
         likes: 0,
+        likesArr: [],
         user: req.user.id,
       });
       console.log("Post has been added!");
@@ -66,13 +67,20 @@ module.exports = {
   },
   likePost: async (req, res) => {
     try {
-      await Post.findOneAndUpdate(
+      let post = await Post.findById(req.params.id)
+      let arr = post.likesArr
+      if(arr.includes(req.user.id)){
+        console.log('user already liked')
+      } else {
+        await Post.findOneAndUpdate(
         { _id: req.params.id },
         {
           $inc: { likes: 1 },
+          $push:{likesArr: req.user.id}
         }
       );
-      console.log("Likes +1");
+        console.log("Likes +1");
+      }
       res.redirect(`/post/${req.params.id}`);
     } catch (err) {
       console.log(err);
@@ -93,17 +101,24 @@ module.exports = {
     }
   },
   likeFeedPost: async (req, res) => {
-    try{
-      await Post.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          $inc: { likes: 1 },
-        }
-      );
-      console.log("Likes +1");
+    try {
+      let post = await Post.findById(req.params.id);
+      let arr = post.likesArr;
+      if (arr.includes(req.user.id)) {
+        console.log("user already liked");
+      } else {
+        await Post.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            $inc: { likes: 1 },
+            $push: { likesArr: req.user.id },
+          }
+        );
+        console.log("Likes +1");
+      }
       res.redirect(`/feed`);
-    } catch (err){
-      console.error(err)
+    } catch (err) {
+      console.error(err);
     }
   },
   changeProfilePicture: async (req, res) => {

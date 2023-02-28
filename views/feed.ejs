@@ -9,11 +9,20 @@
             <% for(var i=0; i<posts.length; i++) {%>
               <%user=users.find(x=> x.id == posts[i].user)%>
                 <li class="feedPost col-6 justify-content-between mt-2">
-                  <p class='fw-bold'>
-                    <a href="/getUserProfile/<%=user._id%>">
-                      <%= user.userName%>
-                    </a>
-                  </p>
+                  <div class = 'd-flex mb-3 align-items-center'>
+                    <div>
+                      <a href="/getUserProfile/<%=user._id%>">
+                        <img class='w-25 img-fluid d-block' src="<%=user.profilePicture%>" alt="">
+                      </a>
+                    </div>
+                    <div>
+                      <p class='fw-bold'>
+                        <a href="/getUserProfile/<%=user._id%>">
+                          <%= user.userName%>
+                        </a>
+                      </p>
+                    </div>
+                  </div>
                   <a href="/post/<%= posts[i]._id%>">
                     <img class="img-fluid h-75 d-block img-thumbnail" src="<%= posts[i].image%>">
                   </a>
