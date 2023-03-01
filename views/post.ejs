@@ -70,9 +70,11 @@
                     <button class="mx-2 btn btn-primary fa fa-heart" type="submit"></button>
                   <%}%>
                 </form>
-                <form action="/comment/deleteComment/<%= comment.id %>?_method=DELETE" method="POST">
-                  <button class="mx-2 btn btn-primary fa fa-trash" type="submit"></button>
-                </form>
+                <%if(comment.user == user.id){%>
+                  <form action="/comment/deleteComment/<%= comment.id %>?_method=DELETE" method="POST">
+                    <button class="mx-2 btn btn-primary fa fa-trash" type="submit"></button>
+                  </form>
+                <%}%>
               </div>
             </li>
           <%})%>
