@@ -1,3 +1,5 @@
+![Socials Demo](Socials.gif)
+
 # Install
 
 `npm install`
