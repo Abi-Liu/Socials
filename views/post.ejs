@@ -1,88 +1,108 @@
 <%- include('partials/header') -%>
-<div class = 'row'>
-  <div class = 'col-6 w-25'>
-    <%- include('partials/navbar') -%>
-  </div>
-  
+<div class="row">
+  <div class="col-6 w-25"><%- include('partials/navbar') -%></div>
+
   <div class="col-6 w-75 ps-3">
     <div class="row justify-content-center mt-5">
-      <div id = 'postDiv' class="col-6 mb-5">
+      <div id="postDiv" class="col-6 mb-5">
         <h2><%= post.title %></h2>
         <img class="img-fluid h-100" src="<%= post.image%>" />
         <div class="d-flex">
-          <h3 class = 'mx-2'><%= post.likes %></h3>
+          <h3 class="mx-2"><%= post.likes %></h3>
           <form
             action="/post/likePost/<%= post.id %>?_method=PUT"
             method="POST"
-            class = 'mx-2'
+            class="mx-2"
           >
-            <%let arr = post.likesArr%>
-            <%if(arr.includes(user.id)){%>
-              <button class='liked fa fa-heart btn btn-primary'></button>
+            <%let arr = post.likesArr%> <%if(arr.includes(user.id)){%>
+            <button class="liked fa fa-heart btn btn-primary"></button>
             <%} else {%>
-              <button class='fa fa-heart btn btn-primary'></button>
+            <button class="fa fa-heart btn btn-primary"></button>
             <%}%>
             <!-- <button class="btn btn-primary fa fa-heart" type="submit"></button> -->
           </form>
           <%if(post.user == user.id){ %>
-            <form
-              action="/post/deletePost/<%= post.id %>?_method=DELETE"
-              method="POST"
-              class = 'mx-2'
-            >
-              <button class="btn btn-primary fa fa-trash" type="submit"></button>
-            </form>
+          <form
+            action="/post/deletePost/<%= post.id %>?_method=DELETE"
+            method="POST"
+            class="mx-2"
+          >
+            <button class="btn btn-primary fa fa-trash" type="submit"></button>
+          </form>
           <%}%>
         </div>
         <div>
-          <a href="/getUserProfile/<%=user.id%>"><span><strong><%=user.userName%></strong></span></a>
-          <span>
-            <%= post.caption %>
-          </span>
+          <a href="/getUserProfile/<%=post.user%>">
+            <span><strong><%=postUser.userName%></strong></span></a
+          >
+          <span> <%= post.caption %> </span>
         </div>
       </div>
-      
-      <div class= "pt-5 mt-5 mb-3">
+
+      <div class="pt-5 mt-5 mb-3">
         <h2>Add a Comment</h2>
-        <form class = 'w-75' action="/comment/createComment/<%=post.id%>" method="POST">
+        <form
+          class="w-75"
+          action="/comment/createComment/<%=post.id%>"
+          method="POST"
+        >
           <div class="mb-3">
-            <textarea class="form-control" id = 'comment' name="comment"></textarea>
+            <textarea
+              class="form-control"
+              id="comment"
+              name="comment"
+            ></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
       <div>
-        <ul class = 'w-50'>
-          <% comments.forEach(comment=> { %>
-            <% let commentUser = allUsers.find((item) => item.id === String(comment.user))%>
-            <li class = 'mb-3 d-flex justify-content-between'>
-              <div>
-                <a href="/getUserProfile/<%=commentUser.id%>"><span><strong><%= commentUser.userName%>:</strong></span> </a>
-                <span><%=comment.comment%></span>
-              </div>
-              <div class = 'd-flex mb-5'>
-                <span class = mx-2><%= comment.likes%></span>
-                <form action="/comment/likeComment/<%= comment.id %>?_method=PUT" method="POST">
-                  <%let arr = comment.likesArr%>
-                  <%if(arr.includes(user.id)){%>
-                    <button class="liked mx-2 btn btn-primary fa fa-heart" type="submit"></button>
-                  <%} else {%>
-                    <button class="mx-2 btn btn-primary fa fa-heart" type="submit"></button>
-                  <%}%>
-                </form>
-                <%if(comment.user == user.id){%>
-                  <form action="/comment/deleteComment/<%= comment.id %>?_method=DELETE" method="POST">
-                    <button class="mx-2 btn btn-primary fa fa-trash" type="submit"></button>
-                  </form>
+        <ul class="w-50">
+          <% comments.forEach(comment=> { %> <% let commentUser =
+          allUsers.find((item) => item.id === String(comment.user))%>
+          <li class="mb-3 d-flex justify-content-between">
+            <div>
+              <a href="/getUserProfile/<%=commentUser.id%>"
+                ><span><strong><%= commentUser.userName%>:</strong></span>
+              </a>
+              <span><%=comment.comment%></span>
+            </div>
+            <div class="d-flex mb-5">
+              <span class="mx-2"><%= comment.likes%></span>
+              <form
+                action="/comment/likeComment/<%= comment.id %>?_method=PUT"
+                method="POST"
+              >
+                <%let arr = comment.likesArr%> <%if(arr.includes(user.id)){%>
+                <button
+                  class="liked mx-2 btn btn-primary fa fa-heart"
+                  type="submit"
+                ></button>
+                <%} else {%>
+                <button
+                  class="mx-2 btn btn-primary fa fa-heart"
+                  type="submit"
+                ></button>
                 <%}%>
-              </div>
-            </li>
+              </form>
+              <%if(comment.user == user.id){%>
+              <form
+                action="/comment/deleteComment/<%= comment.id %>?_method=DELETE"
+                method="POST"
+              >
+                <button
+                  class="mx-2 btn btn-primary fa fa-trash"
+                  type="submit"
+                ></button>
+              </form>
+              <%}%>
+            </div>
+          </li>
           <%})%>
         </ul>
       </div>
     </div>
   </div>
-
 </div>
 
 <%- include('partials/footer') -%>

@@ -1,36 +1,48 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
-const Comment = require('../models/Comment')
-const User = require('../models/User')
+const Comment = require("../models/Comment");
+const User = require("../models/User");
 
 module.exports = {
   getProfile: async (req, res) => {
     try {
       const posts = await Post.find({ user: req.user.id });
-      res.render("profile.ejs", { posts: posts, user: req.user, loggedUser: true});
+      res.render("profile.ejs", {
+        posts: posts,
+        user: req.user,
+        loggedUser: true,
+      });
     } catch (err) {
       console.log(err);
     }
   },
   getUserProfile: async (req, res) => {
-    try{
-      const posts = await Post.find({user: req.params.id})
-      const user = await User.findById(req.params.id)
-      let loggedUser = false
-      if(user.id == req.user.id){
-        loggedUser = true
+    try {
+      const posts = await Post.find({ user: req.params.id });
+      const user = await User.findById(req.params.id);
+      let loggedUser = false;
+      if (user.id == req.user.id) {
+        loggedUser = true;
       }
-      console.log(req.params.id)
-      res.render('profile.ejs', {posts: posts, user: user, loggedUser: loggedUser})
+      console.log(req.params.id);
+      res.render("profile.ejs", {
+        posts: posts,
+        user: user,
+        loggedUser: loggedUser,
+      });
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   },
   getFeed: async (req, res) => {
     try {
       const users = await User.find();
       const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { posts: posts, users: users, loggedUser: req.user.id});
+      res.render("feed.ejs", {
+        posts: posts,
+        users: users,
+        loggedUser: req.user.id,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -38,9 +50,18 @@ module.exports = {
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
-      const comments = await Comment.find({post: post.id}).sort({ createdAt: "desc" });
+      const postUser = await User.findById(post.user);
+      const comments = await Comment.find({ post: post.id }).sort({
+        createdAt: "desc",
+      });
       const users = await User.find();
-      res.render("post.ejs", { post: post, user: req.user, comments: comments, allUsers: users });
+      res.render("post.ejs", {
+        post: post,
+        user: req.user,
+        comments: comments,
+        allUsers: users,
+        postUser: postUser,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -67,23 +88,25 @@ module.exports = {
   },
   likePost: async (req, res) => {
     try {
-      let post = await Post.findById(req.params.id)
-      let arr = post.likesArr
-      if(arr.includes(req.user.id)){
-        await Post.findOneAndUpdate({_id: req.params.id},
+      let post = await Post.findById(req.params.id);
+      let arr = post.likesArr;
+      if (arr.includes(req.user.id)) {
+        await Post.findOneAndUpdate(
+          { _id: req.params.id },
           {
-            $inc: {likes: -1},
-            $pull: {likesArr: req.user.id},
-          })
-        console.log('Likes -1')
+            $inc: { likes: -1 },
+            $pull: { likesArr: req.user.id },
+          }
+        );
+        console.log("Likes -1");
       } else {
         await Post.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          $inc: { likes: 1 },
-          $push:{likesArr: req.user.id}
-        }
-      );
+          { _id: req.params.id },
+          {
+            $inc: { likes: 1 },
+            $push: { likesArr: req.user.id },
+          }
+        );
         console.log("Likes +1");
       }
       res.redirect(`/post/${req.params.id}`);
@@ -134,24 +157,25 @@ module.exports = {
     }
   },
   changeProfilePicture: async (req, res) => {
-    try{ 
-      const result = await cloudinary.uploader.upload(req.file.path,
-      { transformation: [
-        {gravity: "face", height: 1000, width: 1000, crop: "crop"},
-        {radius: "max"},
-        {width: 150, crop: "fill"}
-      ]});
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        transformation: [
+          { gravity: "face", height: 1000, width: 1000, crop: "crop" },
+          { radius: "max" },
+          { width: 150, crop: "fill" },
+        ],
+      });
 
-       await User.findOneAndUpdate(
-         { _id: req.user.id },
-         {
-           $set: { profilePicture: result.secure_url },
-         }
-       );
-      console.log('changed profile picture')
-      res.redirect('/profile')
-    } catch (err){
-      console.error(err)
+      await User.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          $set: { profilePicture: result.secure_url },
+        }
+      );
+      console.log("changed profile picture");
+      res.redirect("/profile");
+    } catch (err) {
+      console.error(err);
     }
-  }
+  },
 };
